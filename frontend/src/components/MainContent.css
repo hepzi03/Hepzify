@@ -1,0 +1,25 @@
+.header-doodles {
+  position: relative;
+  width: 100%;
+  padding: 20px;
+  text-align: center;
+}
+
+.header-doodles h1 {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 3rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.doodle-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.doodle {
+  width: 100px;
+  height: 100px;
+} 
