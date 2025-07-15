@@ -1,7 +1,3 @@
+.env
 node_modules/
-uploads/
-*.mp3
-*.mp4
-*.zip
-*.exe
-.DS_Store
+
