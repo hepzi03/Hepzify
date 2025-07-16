@@ -6,7 +6,10 @@ const authRoutes = require('./routes/auth');
 const app = express();
 
 // Middleware
-app.use(cors()); // Enable CORS
+app.use(cors({
+  origin: 'https://hepzify.vercel.app',
+  credentials: true
+})); // Enable CORS for Vercel frontend
 app.use(express.json());
 
 // Connect to MongoDB
