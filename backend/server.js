@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db');
 const authRoutes = require('./routes/auth');
 
 const app = express();
@@ -13,10 +13,7 @@ app.use(cors({
 app.use(express.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/musicplayer', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-});
+connectDB();
 
 // Routes
 app.use('/api/auth', authRoutes);
