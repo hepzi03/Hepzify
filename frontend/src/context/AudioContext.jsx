@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useRef } from 'react';
-import axios from 'axios';
+import api from '../utils/axios';
 
 const AudioContext = createContext(null);
 
@@ -16,7 +16,7 @@ export const AudioProvider = ({ children }) => {
 
   const fetchSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/all');
+      const response = await api.get('/music/all');
       setSongList(response.data);
     } catch (error) {
       console.error('Error fetching songs:', error);

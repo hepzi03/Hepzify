@@ -4,7 +4,7 @@ import { PlayArrow, Pause, FavoriteBorder, Favorite } from '@mui/icons-material'
 import { useAudio } from '../context/AudioContext';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
-import axios from 'axios';
+import api from '../utils/axios';
 
 const SongItem = styled.div`
   background: transparent;
@@ -65,7 +65,7 @@ const FavoritesView = () => {
 
   const fetchLikedSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/liked', {
+      const response = await api.get('/music/liked', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setLikedSongs(response.data);
@@ -94,7 +94,7 @@ const FavoritesView = () => {
         headers: { Authorization: `Bearer ${token}` }
       };
 
-      await axios.post(`http://localhost:5000/api/music/${songId}/unlike`, {}, config);
+      await api.post(`/music/${songId}/unlike`, {}, config);
       // Remove the unliked song from the list
       setLikedSongs(prev => prev.filter(song => song._id !== songId));
     } catch (error) {

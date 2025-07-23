@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import { Box, Typography, IconButton, List, ListItem, ListItemText, ListItemIcon, Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import { ChevronLeft, ChevronRight, PlayArrow, Delete, MoreVert, Pause, Add, MusicNote } from '@mui/icons-material';
-import axios from 'axios';
+import api from '../utils/axios';
 import { useAudio } from '../context/AudioContext';
 import styled from 'styled-components';
 import SongList from './SongList';
@@ -123,7 +123,7 @@ const MainContent = forwardRef(({ onPlaylistSelect, currentView, selectedPlaylis
   const fetchPlaylists = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('http://localhost:5000/api/playlists', {
+      const response = await api.get('/playlists', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -143,7 +143,7 @@ const MainContent = forwardRef(({ onPlaylistSelect, currentView, selectedPlaylis
   const handleDeleteConfirm = async () => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/playlists/${playlistToDelete._id}`, {
+      await api.delete(`/playlists/${playlistToDelete._id}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Box, Typography, IconButton, Collapse } from '@mui/material';
 import { PlayArrow, Pause, Add, ExpandMore, ExpandLess, Favorite, FavoriteBorder } from '@mui/icons-material';
 import styled from 'styled-components';
-import axios from 'axios';
+import api from '../utils/axios';
 import { useAudio } from '../context/AudioContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -93,7 +93,7 @@ const ArtistsView = () => {
 
   const fetchSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/all');
+      const response = await api.get('/music/all');
       const songs = response.data;
       
       // Group songs by artist
@@ -131,7 +131,7 @@ const ArtistsView = () => {
 
   const fetchLikedSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/liked', {
+      const response = await api.get('/music/liked', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setLikedSongs(response.data.map(song => song._id));
@@ -154,7 +154,7 @@ const ArtistsView = () => {
       const isLiked = likedSongs.includes(songId);
       const endpoint = isLiked ? 'unlike' : 'like';
       
-      await axios.post(`http://localhost:5000/api/music/${songId}/${endpoint}`, {}, {
+      await api.post(`/music/${songId}/${endpoint}`, {}, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
 

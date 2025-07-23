@@ -22,7 +22,7 @@ import {
   Podcasts,
   QueueMusic,
 } from '@mui/icons-material';
-import axios from 'axios';
+import api from '../utils/axios';
 import styled from 'styled-components';
 
 const SidebarContainer = styled.div`
@@ -83,7 +83,7 @@ const Sidebar = ({ onNavigate, currentView, onPlaylistCreate }) => {
   const handleCreatePlaylist = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.post('http://localhost:5000/api/playlists', 
+      const response = await api.post('/playlists', 
         {
           name: playlistName,
           description: playlistDescription,

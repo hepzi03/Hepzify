@@ -21,7 +21,7 @@ import {
   Favorite,
   FavoriteBorder,
 } from '@mui/icons-material';
-import axios from 'axios';
+import api from '../utils/axios';
 import { useAudio } from '../context/AudioContext';
 import { useAuth } from '../context/AuthContext';
 
@@ -38,7 +38,7 @@ const PlaylistView = ({ playlistId, onClose }) => {
   const fetchPlaylist = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5000/api/playlists/${playlistId}`, {
+      const response = await api.get(`/playlists/${playlistId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -52,7 +52,7 @@ const PlaylistView = ({ playlistId, onClose }) => {
   // Fetch all available songs
   const fetchAllSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/all');
+      const response = await api.get('/music/all');
       setAllSongs(response.data);
     } catch (error) {
       console.error('Error fetching songs:', error);
@@ -62,7 +62,7 @@ const PlaylistView = ({ playlistId, onClose }) => {
   // Add this function to fetch liked songs
   const fetchLikedSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/liked', {
+      const response = await api.get('/music/liked', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setLikedSongs(response.data.map(song => song._id));
@@ -87,7 +87,7 @@ const PlaylistView = ({ playlistId, onClose }) => {
   const handleAddSong = async (songId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://localhost:5000/api/playlists/${playlistId}/songs`, 
+      await api.post(`/playlists/${playlistId}/songs`, 
         { songId },
         {
           headers: {
@@ -106,7 +106,7 @@ const PlaylistView = ({ playlistId, onClose }) => {
   const handleRemoveSong = async (songId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5000/api/playlists/${playlistId}/songs/${songId}`, {
+      await api.delete(`/playlists/${playlistId}/songs/${songId}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -157,10 +157,10 @@ const PlaylistView = ({ playlistId, onClose }) => {
       };
 
       if (likedSongs.includes(songId)) {
-        await axios.post(`http://localhost:5000/api/music/${songId}/unlike`, {}, config);
+        await api.post(`/music/${songId}/unlike`, {}, config);
         setLikedSongs(prev => prev.filter(id => id !== songId));
       } else {
-        await axios.post(`http://localhost:5000/api/music/${songId}/like`, {}, config);
+        await api.post(`/music/${songId}/like`, {}, config);
         setLikedSongs(prev => [...prev, songId]);
       }
     } catch (error) {

@@ -4,7 +4,7 @@ import { PlayArrow, Pause, ExpandMore, ExpandLess, Favorite, FavoriteBorder } fr
 import { useAudio } from '../context/AudioContext';
 import { useAuth } from '../context/AuthContext';
 import styled from 'styled-components';
-import axios from 'axios';
+import api from '../utils/axios';
 
 const GenreSection = styled.div`
   margin-bottom: 20px;
@@ -90,7 +90,7 @@ const GenreView = () => {
 
   const fetchSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/all');
+      const response = await api.get('/music/all');
       const songs = response.data;
       
       // Group songs by genre
@@ -126,7 +126,7 @@ const GenreView = () => {
 
   const fetchLikedSongs = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/music/liked', {
+      const response = await api.get('/music/liked', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
       });
       setLikedSongs(response.data.map(song => song._id));
@@ -154,10 +154,10 @@ const GenreView = () => {
       };
 
       if (likedSongs.includes(songId)) {
-        await axios.post(`http://localhost:5000/api/music/${songId}/unlike`, {}, config);
+        await api.post(`/music/${songId}/unlike`, {}, config);
         setLikedSongs(prev => prev.filter(id => id !== songId));
       } else {
-        await axios.post(`http://localhost:5000/api/music/${songId}/like`, {}, config);
+        await api.post(`/music/${songId}/like`, {}, config);
         setLikedSongs(prev => [...prev, songId]);
       }
     } catch (error) {
